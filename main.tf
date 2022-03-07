@@ -35,8 +35,13 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    capacity_type = "SPOT"
-    default       = {}
+    default       = {
+      min_size     = 1
+      max_size     = 10
+      desired_size = 1
+
+      capacity_type  = "SPOT"
+    }
   }
 
   cluster_addons = {
@@ -132,4 +137,29 @@ module "karpenter" {
       value = module.eks.cluster_endpoint
     }
   ]
+}
+
+# Create provisioner for karpenter
+
+resource "kubectl_manifest" "karpenter-provisioner" {
+  yaml_body = <<YAML
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: default
+spec:
+  requirements:
+    - key: karpenter.sh/capacity-type
+      operator: In
+      values: ["spot"]
+  limits:
+    resources:
+      cpu: 1000
+  provider:
+    subnetSelector:
+      karpenter.sh/discovery: ${var.eks-cluster-name}
+    securityGroupSelector:
+      karpenter.sh/discovery: ${var.eks-cluster-name}
+  ttlSecondsAfterEmpty: 30
+YAML
 }
