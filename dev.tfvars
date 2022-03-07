@@ -13,5 +13,3 @@ vpc-azs            = ["us-est-2a, us-east-2b, us-east-2c"]
 
 eks-cluster-name    = "eks-dev"
 eks-cluster-version = "1.21"
-
-#
