@@ -99,36 +99,36 @@ module "karpenter_irsa" {
   }
 }
 
-## Install karpenter
-#module "karpenter" {
-#  source     = "terraform-module/release/helm"
-#  namespace  = "karpenter"
-#  repository = "https://charts.karpenter.sh/"
-#
-#  app = {
-#    name          = "karpenter"
-#    version       = "0.6.4"
-#    chart         = "karpenter"
-#    force_update  = true
-#    wait          = false
-#    recreate_pods = true
-#    deploy        = 1
-#  }
-#
-#  values = [file("helm-values/karpenter.yaml")]
-#
-#  set = [
-#    {
-#      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-#      value = module.karpenter_irsa.iam_role_arn
-#    },
-#    {
-#      name  = "clusterName"
-#      value = var.eks-cluster-name
-#    },
-#    {
-#      name  = "clusterEndpoint"
-#      value = module.eks.cluster_endpoint
-#    }
-#  ]
-#}
+# Install karpenter
+module "karpenter" {
+  source     = "terraform-module/release/helm"
+  namespace  = "karpenter"
+  repository = "https://charts.karpenter.sh/"
+
+  app = {
+    name          = "karpenter"
+    version       = "0.6.4"
+    chart         = "karpenter"
+    force_update  = true
+    wait          = false
+    recreate_pods = true
+    deploy        = 1
+  }
+
+  values = [file("helm-values/karpenter.yaml")]
+
+  set = [
+    {
+      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = module.karpenter_irsa.iam_role_arn
+    },
+    {
+      name  = "clusterName"
+      value = var.eks-cluster-name
+    },
+    {
+      name  = "clusterEndpoint"
+      value = module.eks.cluster_endpoint
+    }
+  ]
+}
