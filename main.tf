@@ -139,7 +139,6 @@ module "karpenter" {
 }
 
 # Create provisioner for karpenter
-
 resource "kubectl_manifest" "karpenter-provisioner" {
   yaml_body = <<YAML
 apiVersion: karpenter.sh/v1alpha5
