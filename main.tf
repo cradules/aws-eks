@@ -26,19 +26,26 @@ module "eks" {
   cluster_version = var.eks-cluster-version
   vpc_id          = module.vpc.vpc_id
   subnet_ids      = module.vpc.public_subnets
-  enable_irsa     = true
+
+  eks_managed_node_group_defaults = {
+    # We are using the IRSA created below for permissions
+    # This is a better practice as well so that the nodes do not have the permission,
+    # only the VPC CNI addon will have the permission
+    iam_role_attach_cni_policy = false
+  }
+
   eks_managed_node_groups = {
     capacity_type = "SPOT"
     default       = {}
   }
+
   cluster_addons = {
     vpc-cni = {
       resolve_conflicts        = "OVERWRITE"
       service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
-
-
     }
   }
+
   tags = {
     "Name"        = var.eks-cluster-name
     "Environment" = var.environment
@@ -127,6 +134,8 @@ resource "helm_release" "karpenter" {
   repository = "https://charts.karpenter.sh/"
   chart = "karpenter"
   name  = "karpenter"
+  namespace = "karpenter"
+  create_namespace = true
   version = "0.6.4"
   set  {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
