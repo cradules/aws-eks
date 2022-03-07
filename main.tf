@@ -135,6 +135,7 @@ resource "helm_release" "karpenter" {
   chart = "karpenter"
   name  = "karpenter"
   namespace = "karpenter"
+  create_namespace = true
   version = "0.6.4"
   set  {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
