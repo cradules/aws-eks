@@ -22,7 +22,6 @@ module "vpc" {
 #Create EKS Cluster with IRSA integration
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
-  depends_on      = [module.vpc]
   cluster_name    = var.eks-cluster-name
   cluster_version = var.eks-cluster-version
   vpc_id          = module.vpc.vpc_id
@@ -49,7 +48,6 @@ module "eks" {
 # Create CNI IRSA integration
 
 module "vpc_cni_irsa" {
-  depends_on            = [module.eks]
   source                = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   role_name             = "vpc-cni-role-${var.eks-cluster-name}"
   attach_vpc_cni_policy = true
@@ -72,7 +70,6 @@ module "vpc_cni_irsa" {
 # Add Karpenter IRSA
 
 module "karpenter_irsa" {
-  depends_on                       = [module.eks]
   source                           = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
   role_name                        = "karpenter-controller-${var.eks-cluster-name}"
   karpenter_controller_cluster_ids = [module.eks.cluster_id]

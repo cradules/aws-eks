@@ -18,7 +18,7 @@ variable "vpc-name" {
 
 variable "vpc-cidr" {
   description = "AWS VPC CIRDs"
-  type        = list(string)
+  type        = string
 }
 
 variable "vpc-azs" {
