@@ -25,7 +25,7 @@ module "eks" {
   cluster_name    = var.eks-cluster-name
   cluster_version = var.eks-cluster-version
   vpc_id          = module.vpc.vpc_id
-  subnet_ids      = [module.vpc.public_subnets]
+  subnet_ids      = module.vpc.public_subnets
   enable_irsa     = true
   eks_managed_node_groups = {
     default = {}
