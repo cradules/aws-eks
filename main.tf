@@ -104,9 +104,8 @@ module "karpenter" {
     force_update  = true
     wait          = true
     recreate_pods = true
-    deploy        = 1
+    deploy        = 2
   }
-  values = [file("helm-values/karpenter.yaml")]
   set = [
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
@@ -119,11 +118,6 @@ module "karpenter" {
     {
       name  = "clusterEndpoint"
       value = module.eks.cluster_endpoint
-    },
-    {
-      name  = "aws.defaultInstanceProfile"
-      value = "KarpenterNodeInstanceProfile-${var.eks-cluster-name}"
     }
   ]
-
 }
