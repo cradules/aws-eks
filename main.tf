@@ -129,25 +129,3 @@ module "karpenter" {
     }
   ]
 }
-
-#resource "helm_release" "karpenter" {
-#  repository = "https://charts.karpenter.sh/"
-#  chart = "karpenter"
-#  name  = "karpenter"
-#  namespace = "karpenter"
-#  create_namespace = true
-#  version = "0.6.4"
-#  set  {
-#      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-#      value = module.karpenter_irsa.iam_role_arn
-#    }
-#
-#  set  {
-#      name  = "clusterName"
-#      value = var.eks-cluster-name
-#    }
-#  set {
-#      name  = "clusterEndpoint"
-#      value = module.eks.cluster_endpoint
-#    }
-#}
