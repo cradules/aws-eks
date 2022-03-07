@@ -1,11 +1,9 @@
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
     }
   }
-  required_version = ">= 1.1.0"
-
   cloud {
     organization = "guts"
 
