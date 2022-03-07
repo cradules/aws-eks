@@ -18,8 +18,8 @@ provider "aws" {
 
 provider "helm" {
   kubernetes {
-    host               = module.eks.cluster_id
-    client_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    host               = data.aws_eks_cluster.eks-cluster.endpoint
+    client_certificate = base64decode(data.aws_eks_cluster.eks-cluster.certificate_authority.0.data)
     token              = data.aws_eks_cluster_auth.eks-auth.token
   }
 }
