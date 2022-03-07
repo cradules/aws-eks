@@ -137,27 +137,3 @@ module "karpenter" {
     }
   ]
 }
-
-# Create provisioner for karpenter
-resource "kubectl_manifest" "karpenter-provisioner" {
-  yaml_body = <<YAML
-apiVersion: karpenter.sh/v1alpha5
-kind: Provisioner
-metadata:
-  name: default
-spec:
-  requirements:
-    - key: karpenter.sh/capacity-type
-      operator: In
-      values: ["spot"]
-  limits:
-    resources:
-      cpu: 1000
-  provider:
-    subnetSelector:
-      karpenter.sh/discovery: ${var.eks-cluster-name}
-    securityGroupSelector:
-      karpenter.sh/discovery: ${var.eks-cluster-name}
-  ttlSecondsAfterEmpty: 30
-YAML
-}
