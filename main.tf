@@ -101,6 +101,7 @@ module "karpenter_irsa" {
 
 # Install karpenter
 module "karpenter" {
+  depends_on = [module.eks]
   source     = "terraform-module/release/helm"
   namespace  = "karpenter"
   repository = "https://charts.karpenter.sh/"
