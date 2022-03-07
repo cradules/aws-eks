@@ -99,7 +99,7 @@ module "karpenter_irsa" {
   }
 }
 
- Install karpenter
+# Install karpenter
 module "karpenter" {
   source     = "terraform-module/release/helm"
   namespace  = "karpenter"
