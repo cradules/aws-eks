@@ -71,9 +71,10 @@ module "vpc_cni_irsa" {
 # Add Karpenter IRSA
 
 module "karpenter_irsa" {
-  source                           = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  role_name                        = "karpenter-controller-${var.eks-cluster-name}"
-  karpenter_controller_cluster_ids = [module.eks.cluster_id]
+  source                             = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  role_name                          = "karpenter-controller-${var.eks-cluster-name}"
+  attach_karpenter_controller_policy = true
+  karpenter_controller_cluster_ids   = [module.eks.cluster_id]
   karpenter_controller_node_iam_role_arns = [
     module.eks.eks_managed_node_groups["default"].iam_role_arn
 
