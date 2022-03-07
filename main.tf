@@ -99,55 +99,55 @@ module "karpenter_irsa" {
   }
 }
 
-# Install karpenter
-#module "karpenter" {
-#  source     = "terraform-module/release/helm"
-#  namespace  = "kube-system"
-#  repository = "https://charts.karpenter.sh/"
-#  app = {
-#    name          = "karpenter"
-#    version       = "0.6.4"
-#    chart         = "karpenter"
-#    force_update  = true
-#    wait          = true
-#    recreate_pods = true
-#    deploy        = 2
-#  }
-#  set = [
-#    {
-#      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-#      value = module.karpenter_irsa.iam_role_arn
-#    },
-#    {
-#      name  = "clusterName"
-#      value = var.eks-cluster-name
-#    },
-#    {
-#      name  = "clusterEndpoint"
-#      value = module.eks.cluster_endpoint
-#    }
-#  ]
-#}
-
-resource "helm_release" "karpenter" {
-  depends_on = [module.eks]
+ Install karpenter
+module "karpenter" {
+  source     = "terraform-module/release/helm"
+  namespace  = "karpenter"
   repository = "https://charts.karpenter.sh/"
-  chart = "karpenter"
-  name  = "karpenter"
-  namespace = "karpenter"
-  create_namespace = true
-  version = "0.6.4"
-  set  {
+  app = {
+    name          = "karpenter"
+    version       = "0.6.4"
+    chart         = "karpenter"
+    force_update  = true
+    wait          = true
+    recreate_pods = true
+    deploy        = 2
+  }
+  set = [
+    {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
       value = module.karpenter_irsa.iam_role_arn
-    }
-
-  set  {
+    },
+    {
       name  = "clusterName"
       value = var.eks-cluster-name
-    }
-  set {
+    },
+    {
       name  = "clusterEndpoint"
       value = module.eks.cluster_endpoint
     }
+  ]
 }
+
+#resource "helm_release" "karpenter" {
+#  depends_on = [module.eks]
+#  repository = "https://charts.karpenter.sh/"
+#  chart = "karpenter"
+#  name  = "karpenter"
+#  namespace = "karpenter"
+#  create_namespace = true
+#  version = "0.6.4"
+#  set  {
+#      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+#      value = module.karpenter_irsa.iam_role_arn
+#    }
+#
+#  set  {
+#      name  = "clusterName"
+#      value = var.eks-cluster-name
+#    }
+#  set {
+#      name  = "clusterEndpoint"
+#      value = module.eks.cluster_endpoint
+#    }
+#}
