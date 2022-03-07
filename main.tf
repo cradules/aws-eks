@@ -113,7 +113,7 @@ module "karpenter" {
     recreate_pods = true
     deploy        = 1
   }
-  values = []
+  values = [file("helm-values/karpenter.yaml")]
   set = [
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
