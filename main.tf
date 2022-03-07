@@ -90,4 +90,38 @@ module "karpenter_irsa" {
   }
 }
 
+# Install karpenter
+module "karpenter" {
+  source = "terraform-module/release/helm"
+  namespace  = "kube-system"
+  repository = "https://charts.karpenter.sh/"
+  app        = {
+    name = "karpenter"
+    version = "0.6.4"
+    chart = "karpenter"
+    force_update  = true
+    wait          = true
+    recreate_pods = true
+    deploy        = 1
+  }
+  values = [templatefile("helm-values/karpenter.yaml")]
+  set = [
+    {
+      name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = module.karpenter_irsa.iam_role_arn
+    },
+    {
+      name = "clusterName"
+      value = var.eks-cluster-name
+    },
+    {
+      name = "clusterEndpoint"
+      value = module.eks.cluster_endpoint
+    },
+    {
+      name = "aws.defaultInstanceProfile"
+      value = "KarpenterNodeInstanceProfile-${var.eks-cluster-name}"
+    }
+  ]
 
+}
