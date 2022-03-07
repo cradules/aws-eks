@@ -28,6 +28,7 @@ module "eks" {
   subnet_ids      = module.vpc.public_subnets
   enable_irsa     = true
   eks_managed_node_groups = {
+    capacity_type  = "SPOT"
     default = {}
   }
   cluster_addons = {
