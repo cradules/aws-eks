@@ -8,3 +8,6 @@ variable "eks-cluster-name" {
 variable "eks-cluster_endpoint" {
   description = "EKS Cluster Endpoint"
 }
+variable "karpenter_chart_version" {
+  description = "Karpenter Chart Version"
+}

@@ -1,4 +1,5 @@
 # Install haproxy external
+
 module "haproxy-external" {
   source     = "terraform-module/release/helm"
   namespace  = "haproxy-ingress-external"
@@ -6,12 +7,12 @@ module "haproxy-external" {
 
   app = {
     name             = "haproxy-ingress-external"
-    version          = "1.19.0"
+    version          = var.haproxy_chart_version
     create_namespace = true
     chart            = "kubernetes-ingress"
     force_update     = true
     wait             = false
-    recreate_pods    = true
+    recreate_pods    = false
     deploy           = 1
   }
   values = [file("helm-values/haproxy.yaml")]

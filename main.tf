@@ -136,8 +136,10 @@ module "karpenter" {
   eks-cluster-name        = var.eks-cluster-name
   eks-cluster_endpoint    = module.eks.cluster_endpoint
   karpenter_irsa_role_arn = module.karpenter_irsa.iam_role_arn
+  karpenter_chart_version = "0.6.4"
 }
 
 module "haproxy-external" {
   source = "./modules/haproxy-external"
+  haproxy_chart_version = "1.19.0"
 }

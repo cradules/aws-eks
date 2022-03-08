@@ -1,3 +1,4 @@
+
 module "karpenter" {
   source     = "terraform-module/release/helm"
   namespace  = "karpenter"
@@ -6,12 +7,12 @@ module "karpenter" {
 
   app = {
     name             = "karpenter"
-    version          = "0.6.4"
+    version          = var.karpenter_chart_version
     create_namespace = true
     chart            = "karpenter"
     force_update     = true
     wait             = false
-    recreate_pods    = true
+    recreate_pods    = false
     deploy           = 1
   }
 
