@@ -147,12 +147,13 @@ module "karpenter" {
   ]
 }
 
+# Install haproxy external
 module "haproxy-external" {
   source = "terraform-module/release/helm"
 
   app = {
     name             = "haproxy-ingress-external"
-    version          = "1.11.0"
+    version          = "1.19.0"
     create_namespace = true
     chart            = "kubernetes-ingress"
     force_update     = true
