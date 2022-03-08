@@ -122,14 +122,14 @@ module "karpenter" {
 
 
   app = {
-    name          = "karpenter"
-    version       = "0.6.4"
+    name             = "karpenter"
+    version          = "0.6.4"
     create_namespace = true
-    chart         = "karpenter"
-    force_update  = true
-    wait          = false
-    recreate_pods = true
-    deploy        = 1
+    chart            = "karpenter"
+    force_update     = true
+    wait             = false
+    recreate_pods    = true
+    deploy           = 1
   }
 
   values = [file("helm-values/karpenter.yaml")]
