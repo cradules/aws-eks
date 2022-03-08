@@ -84,6 +84,7 @@ module "eks" {
     "Name"        = var.eks-cluster-name
     "Environment" = var.environment
     "Terraform"   = "true"
+    "karpenter.sh/discovery" = var.eks-cluster-name
   }
 }
 
