@@ -171,7 +171,7 @@ module "karpenter" {
 
 # Install haproxy external
 module "haproxy-external" {
-    depends_on = [data.aws_eks_cluster.eks-cluster, data.aws_eks_cluster_auth.eks-auth]
+  depends_on = [data.aws_eks_cluster.eks-cluster, data.aws_eks_cluster_auth.eks-auth]
   source     = "terraform-module/release/helm"
   namespace  = "haproxy-ingress-external"
   repository = "https://haproxytech.github.io/helm-charts"
