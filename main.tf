@@ -16,6 +16,7 @@ module "vpc" {
     "kubernetes.io/role/elb"                        = "1"
     "kubernetes.io/role/internal-elb"               = "1"
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
+    "karpenter.sh/discovery" = var.eks-cluster-name
   }
 }
 
