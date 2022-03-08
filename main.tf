@@ -148,9 +148,9 @@ module "karpenter" {
 }
 
 module "haproxy-external" {
-  source     = "terraform-module/release/helm"
+  source = "terraform-module/release/helm"
 
-  app        = {
+  app = {
     name             = "haproxy-ingress-external"
     version          = "1.11.0"
     create_namespace = true
@@ -162,5 +162,5 @@ module "haproxy-external" {
   }
   namespace  = "haproxy-ingress-external"
   repository = "https://haproxytech.github.io/helm-charts"
-  values = [file("helm-values/haproxy.yaml")]
+  values     = [file("helm-values/haproxy.yaml")]
 }

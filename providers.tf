@@ -27,8 +27,8 @@ provider "kubernetes" {
   load_config_file   = false
   host               = module.eks.cluster_endpoint
   client_certificate = base64decode(data.aws_eks_cluster.eks-cluster.certificate_authority[0].data)
-  token = data.aws_eks_cluster_auth.eks-auth.token
-  insecure = true
+  token              = data.aws_eks_cluster_auth.eks-auth.token
+  insecure           = true
 }
 
 provider "helm" {
