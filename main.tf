@@ -116,6 +116,7 @@ module "karpenter_irsa" {
   role_name                          = "karpenter-controller-${var.eks-cluster-name}"
   attach_karpenter_controller_policy = true
   karpenter_controller_cluster_ids   = [module.eks.cluster_id]
+
   karpenter_controller_node_iam_role_arns = [
     module.eks.eks_managed_node_groups["default"].iam_role_arn
 
@@ -133,7 +134,12 @@ module "karpenter_irsa" {
   }
 }
 
+resource "aws_iam_instance_profile" "karpenter" {
+  name = "KarpenterNodeInstanceProfile-${var.eks-cluster-name}"
+  role = "karpenter-controller-${var.eks-cluster-name}"
+}
 
+#Install karpenter
 module "karpenter" {
   source                  = "./modules/karpenter"
   eks-cluster-name        = var.eks-cluster-name
