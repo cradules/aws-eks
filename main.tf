@@ -21,6 +21,7 @@ module "vpc" {
 
 #Create EKS Cluster with IRSA integration
 module "eks" {
+  depends_on = [module.vpc_cni_irsa]
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = var.eks-cluster-name
   cluster_version = var.eks-cluster-version
@@ -106,6 +107,7 @@ module "karpenter_irsa" {
 
 # Install karpenter
 module "karpenter" {
+  depends_on = [module.karpenter_irsa]
   source     = "terraform-module/release/helm"
   namespace  = "karpenter"
   repository = "https://charts.karpenter.sh/"
