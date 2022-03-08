@@ -149,7 +149,9 @@ module "karpenter" {
 
 # Install haproxy external
 module "haproxy-external" {
-  source = "terraform-module/release/helm"
+  source     = "terraform-module/release/helm"
+  namespace  = "haproxy-ingress-external"
+  repository = "https://haproxytech.github.io/helm-charts"
 
   app = {
     name             = "haproxy-ingress-external"
@@ -161,7 +163,5 @@ module "haproxy-external" {
     recreate_pods    = true
     deploy           = 1
   }
-  namespace  = "haproxy-ingress-external"
-  repository = "https://haproxytech.github.io/helm-charts"
-  values     = [file("helm-values/haproxy.yaml")]
+  values = [file("helm-values/haproxy.yaml")]
 }
