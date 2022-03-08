@@ -26,6 +26,27 @@ module "eks" {
   cluster_version = var.eks-cluster-version
   vpc_id          = module.vpc.vpc_id
   subnet_ids      = module.vpc.public_subnets
+  cluster_security_group_additional_rules = {
+    ingress_nodes_karpenter_ports_tcp = {
+      description                = "Karpenter readiness"
+      protocol                   = "tcp"
+      from_port                  = 8443
+      to_port                    = 8443
+      type                       = "ingress"
+      source_node_security_group = true
+    }
+  }
+
+  node_security_group_additional_rules = {
+    aws_lb_controller_webhook = {
+      description                   = "Cluster API to AWS LB Controller webhook"
+      protocol                      = "all"
+      from_port                     = 9443
+      to_port                       = 9443
+      type                          = "ingress"
+      source_cluster_security_group = true
+    }
+  }
 
   eks_managed_node_group_defaults = {
     # We are using the IRSA created below for permissions
