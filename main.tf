@@ -26,7 +26,6 @@ module "eks" {
   cluster_version = var.eks-cluster-version
   vpc_id          = module.vpc.vpc_id
   subnet_ids      = module.vpc.public_subnets
-  c
 
   eks_managed_node_group_defaults = {
     # We are using the IRSA created below for permissions
