@@ -21,7 +21,6 @@ module "vpc" {
 
 #Create EKS Cluster with IRSA integration
 module "eks" {
-  depends_on      = [module.vpc_cni_irsa]
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = var.eks-cluster-name
   cluster_version = var.eks-cluster-version
