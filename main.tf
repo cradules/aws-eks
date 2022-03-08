@@ -111,7 +111,9 @@ module "karpenter_irsa" {
 }
 
 resource "kubernetes_namespace" "create-namespace" {
-  metadata {}
+  metadata {
+    name = "karpenter"
+  }
 }
 
 # Install karpenter
