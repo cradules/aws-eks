@@ -15,7 +15,7 @@ terraform {
     organization = "guts"
 
     workspaces {
-      name = "guts-eks-dev"
+      name = "eks-dev"
     }
   }
 }
@@ -25,7 +25,7 @@ provider "aws" {
 
 provider "kubernetes" {
   load_config_file   = false
-  host               = data.aws_eks_cluster.eks-cluster.endpoint
+  host               = module.eks.cluster_endpoint
   client_certificate = base64decode(data.aws_eks_cluster.eks-cluster.certificate_authority[0].data)
   insecure           = true
   exec {
@@ -37,8 +37,9 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes {
-    host                   = data.aws_eks_cluster.eks-cluster.endpoint
+    host                   = module.eks.cluster_endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks-cluster.certificate_authority[0].data)
+    insecure = true
     exec {
       api_version = "client.authentication.k8s.io/v1alpha1"
       args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.eks-cluster.name]
