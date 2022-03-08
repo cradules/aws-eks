@@ -132,57 +132,13 @@ module "karpenter_irsa" {
 }
 
 
-# Install karpenter
 module "karpenter" {
-  source     = "terraform-module/release/helm"
-  namespace  = "karpenter"
-  repository = "https://charts.karpenter.sh/"
-
-
-  app = {
-    name             = "karpenter"
-    version          = "0.6.4"
-    create_namespace = true
-    chart            = "karpenter"
-    force_update     = true
-    wait             = false
-    recreate_pods    = true
-    deploy           = 1
-  }
-
-  values = [file("helm-values/karpenter.yaml")]
-
-  set = [
-    {
-      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = module.karpenter_irsa.iam_role_arn
-    },
-    {
-      name  = "clusterName"
-      value = var.eks-cluster-name
-    },
-    {
-      name  = "clusterEndpoint"
-      value = module.eks.cluster_endpoint
-    }
-  ]
+  source                 = "modules/karpenter"
+  eks-cluster-name        = var.eks-cluster-name
+  eks-cluster_endpoint    = module.eks.cluster_endpoint
+  karpenter_irsa_role_arn = module.karpenter_irsa.iam_role_arn
 }
 
-# Install haproxy external
 module "haproxy-external" {
-  source     = "terraform-module/release/helm"
-  namespace  = "haproxy-ingress-external"
-  repository = "https://haproxytech.github.io/helm-charts"
-
-  app = {
-    name             = "haproxy-ingress-external"
-    version          = "1.19.0"
-    create_namespace = true
-    chart            = "kubernetes-ingress"
-    force_update     = true
-    wait             = false
-    recreate_pods    = true
-    deploy           = 1
-  }
-  values = [file("helm-values/haproxy.yaml")]
+  source = "modules/haproxy-external"
 }
