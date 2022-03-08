@@ -31,7 +31,7 @@ module "eks" {
     # We are using the IRSA created below for permissions
     # This is a better practice as well so that the nodes do not have the permission,
     # only the VPC CNI addon will have the permission
-    iam_role_attach_cni_policy = false
+    iam_role_attach_cni_policy = true
   }
 
   eks_managed_node_groups = {
@@ -45,6 +45,12 @@ module "eks" {
   }
 
   cluster_addons = {
+    coredns = {
+      resolve_conflicts = "OVERWRITE"
+    }
+
+    kube-proxy = {}
+
     vpc-cni = {
       resolve_conflicts        = "OVERWRITE"
       service_account_role_arn = module.vpc_cni_irsa.iam_role_arn
