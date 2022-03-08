@@ -26,6 +26,7 @@ module "eks" {
   cluster_version = var.eks-cluster-version
   vpc_id          = module.vpc.vpc_id
   subnet_ids      = module.vpc.public_subnets
+  create_cloudwatch_log_group = false
   cluster_security_group_additional_rules = {
     ingress_nodes_karpenter_ports_tcp = {
       description                = "Karpenter readiness"
