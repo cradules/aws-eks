@@ -110,15 +110,21 @@ module "karpenter_irsa" {
   }
 }
 
+resource "kubernetes_namespace" "create-namespace" {
+  metadata {}
+}
+
 # Install karpenter
 module "karpenter" {
   source     = "terraform-module/release/helm"
   namespace  = "karpenter"
   repository = "https://charts.karpenter.sh/"
 
+
   app = {
     name          = "karpenter"
     version       = "0.6.4"
+    create_namespace = true
     chart         = "karpenter"
     force_update  = true
     wait          = false
