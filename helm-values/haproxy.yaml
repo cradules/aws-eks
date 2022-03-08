@@ -236,7 +236,7 @@ controller:
   ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   PodDisruptionBudget:
     enable: true
-     maxUnavailable: 1
+    maxUnavailable: 1
     # minAvailable: 1
 
   ## Pod Node assignment
