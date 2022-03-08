@@ -106,7 +106,6 @@ module "vpc_cni_irsa" {
 }
 
 
-
 # Add Karpenter IRSA
 
 module "karpenter_irsa" {
@@ -133,7 +132,7 @@ module "karpenter_irsa" {
 
 
 module "karpenter" {
-  source                 = "./modules/karpenter"
+  source                  = "./modules/karpenter"
   eks-cluster-name        = var.eks-cluster-name
   eks-cluster_endpoint    = module.eks.cluster_endpoint
   karpenter_irsa_role_arn = module.karpenter_irsa.iam_role_arn
