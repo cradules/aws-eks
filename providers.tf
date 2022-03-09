@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "1.11.1"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.3.0"
+    }
   }
   cloud {
     organization = "guts"
