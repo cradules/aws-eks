@@ -117,10 +117,7 @@ module "karpenter_irsa" {
   attach_karpenter_controller_policy = true
   karpenter_controller_cluster_ids   = [module.eks.cluster_id]
 
-  karpenter_controller_node_iam_role_arns = [
-    module.eks.eks_managed_node_groups["default"].iam_role_arn
 
-  ]
   oidc_providers = {
     main = {
       provider_arn               = module.eks.oidc_provider_arn
@@ -136,7 +133,7 @@ module "karpenter_irsa" {
 
 resource "aws_iam_instance_profile" "karpenter" {
   name = "KarpenterNodeInstanceProfile-${var.eks-cluster-name}"
-  role = module.eks.eks_managed_node_groups["default"].iam_role_name
+  role = module.eks.
 }
 
 #Install karpenter
