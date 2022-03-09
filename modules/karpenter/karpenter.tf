@@ -1,4 +1,3 @@
-
 module "karpenter" {
   source     = "terraform-module/release/helm"
   namespace  = "karpenter"

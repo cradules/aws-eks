@@ -153,11 +153,23 @@ module "karpenter" {
   eks-cluster-name        = var.eks-cluster-name
   eks-cluster_endpoint    = module.eks.cluster_endpoint
   karpenter_irsa_role_arn = module.karpenter_irsa.iam_role_arn
-  karpenter_chart_version = "0.6.4"
+  karpenter_chart_version = "0.6.5"
   karpenter_node_instance_profile = aws_iam_instance_profile.karpenter.name
 }
 
+# Install haproxy
 module "haproxy-external" {
   source = "./modules/haproxy-external"
   haproxy_chart_version = "1.19.0"
+}
+
+# Install prometheus
+module "prometheus" {
+  source = "./modules/prometheus"
+  prometheus_chart_version = "15.5.3"
+}
+
+module "grafana" {
+  source = "./modules/grafana"
+  grafana_chart_version = "6.24.1"
 }

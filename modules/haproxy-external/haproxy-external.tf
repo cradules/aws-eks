@@ -1,5 +1,3 @@
-# Install haproxy external
-
 module "haproxy-external" {
   source     = "terraform-module/release/helm"
   namespace  = "haproxy-ingress-external"
