@@ -116,8 +116,12 @@ module "karpenter_irsa" {
   role_name                          = "karpenter-controller-${var.eks-cluster-name}"
   attach_karpenter_controller_policy = true
   karpenter_controller_cluster_ids   = [module.eks.cluster_id]
+  attach_cluster_autoscaler_policy = true
 
+  karpenter_controller_node_iam_role_arns = [
+    module.eks.eks_managed_node_groups["default"].iam_role_arn
 
+  ]
   oidc_providers = {
     main = {
       provider_arn               = module.eks.oidc_provider_arn
