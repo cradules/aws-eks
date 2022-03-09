@@ -5,7 +5,7 @@ datasources:
     - name: Prometheus
       type: prometheus
       version: 1
-      url: http://prometheus-server:80
+      url: http://prometheus.prometheus-server:80
       access: proxy
 dashboardProviders:
   dashboardproviders.yaml:
