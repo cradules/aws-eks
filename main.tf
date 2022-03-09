@@ -16,17 +16,17 @@ module "vpc" {
     "kubernetes.io/role/elb"                        = "1"
     "kubernetes.io/role/internal-elb"               = "1"
     "kubernetes.io/cluster/${var.eks-cluster-name}" = "shared"
-    "karpenter.sh/discovery" = var.eks-cluster-name
+    "karpenter.sh/discovery"                        = var.eks-cluster-name
   }
 }
 
 #Create EKS Cluster with IRSA integration
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = var.eks-cluster-name
-  cluster_version = var.eks-cluster-version
-  vpc_id          = module.vpc.vpc_id
-  subnet_ids      = module.vpc.public_subnets
+  source                      = "terraform-aws-modules/eks/aws"
+  cluster_name                = var.eks-cluster-name
+  cluster_version             = var.eks-cluster-version
+  vpc_id                      = module.vpc.vpc_id
+  subnet_ids                  = module.vpc.public_subnets
   create_cloudwatch_log_group = false
   cluster_security_group_additional_rules = {
     ingress_nodes_karpenter_ports_tcp = {
@@ -81,9 +81,9 @@ module "eks" {
   }
 
   tags = {
-    "Name"        = var.eks-cluster-name
-    "Environment" = var.environment
-    "Terraform"   = "true"
+    "Name"                   = var.eks-cluster-name
+    "Environment"            = var.environment
+    "Terraform"              = "true"
     "karpenter.sh/discovery" = var.eks-cluster-name
   }
 }
@@ -112,18 +112,18 @@ module "vpc_cni_irsa" {
 # Add Karpenter IRSA
 
 module "karpenter_irsa" {
-  source                             = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  role_name                          = "karpenter-controller-${var.eks-cluster-name}"
+  source    = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  role_name = "karpenter-controller-${var.eks-cluster-name}"
 
-  attach_karpenter_controller_policy = true
-  attach_cluster_autoscaler_policy = true
-  attach_ebs_csi_policy = true
+  attach_karpenter_controller_policy     = true
+  attach_cluster_autoscaler_policy       = true
+  attach_ebs_csi_policy                  = true
   attach_node_termination_handler_policy = true
   attach_load_balancer_controller_policy = true
-  attach_vpc_cni_policy = true
-  attach_external_dns_policy = true
+  attach_vpc_cni_policy                  = true
+  attach_external_dns_policy             = true
 
-  karpenter_controller_cluster_ids   = [module.eks.cluster_id]
+  karpenter_controller_cluster_ids = [module.eks.cluster_id]
 
   karpenter_controller_node_iam_role_arns = [
     module.eks.eks_managed_node_groups["default"].iam_role_arn
@@ -149,27 +149,27 @@ resource "aws_iam_instance_profile" "karpenter" {
 
 #Install karpenter
 module "karpenter" {
-  source                  = "./modules/karpenter"
-  eks-cluster-name        = var.eks-cluster-name
-  eks-cluster_endpoint    = module.eks.cluster_endpoint
-  karpenter_irsa_role_arn = module.karpenter_irsa.iam_role_arn
-  karpenter_chart_version = "0.6.5"
+  source                          = "./modules/karpenter"
+  eks-cluster-name                = var.eks-cluster-name
+  eks-cluster_endpoint            = module.eks.cluster_endpoint
+  karpenter_irsa_role_arn         = module.karpenter_irsa.iam_role_arn
+  karpenter_chart_version         = "0.6.5"
   karpenter_node_instance_profile = aws_iam_instance_profile.karpenter.name
 }
 
 # Install haproxy
 module "haproxy-external" {
-  source = "./modules/haproxy-external"
+  source                = "./modules/haproxy-external"
   haproxy_chart_version = "1.19.0"
 }
 
 # Install prometheus
 module "prometheus" {
-  source = "./modules/prometheus"
+  source                   = "./modules/prometheus"
   prometheus_chart_version = "15.5.3"
 }
 
 module "grafana" {
-  source = "./modules/grafana"
+  source                = "./modules/grafana"
   grafana_chart_version = "6.24.1"
 }

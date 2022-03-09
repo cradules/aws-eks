@@ -11,7 +11,7 @@ terraform {
       version = "1.11.1"
     }
     helm = {
-      source  = "hashicorp/helm"
+      source = "hashicorp/helm"
     }
   }
   cloud {
