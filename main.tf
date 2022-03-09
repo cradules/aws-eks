@@ -146,6 +146,7 @@ module "karpenter" {
   eks-cluster_endpoint    = module.eks.cluster_endpoint
   karpenter_irsa_role_arn = module.karpenter_irsa.iam_role_arn
   karpenter_chart_version = "0.6.4"
+  karpenter_node_instance_profile = aws_iam_instance_profile.karpenter.name
 }
 
 module "haproxy-external" {

@@ -30,6 +30,10 @@ module "karpenter" {
     {
       name  = "clusterEndpoint"
       value = var.eks-cluster_endpoint
+    },
+    {
+      name = "aws.defaultInstanceProfile"
+      value = var.karpenter_node_instance_profile
     }
   ]
 }

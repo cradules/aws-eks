@@ -11,3 +11,7 @@ variable "eks-cluster_endpoint" {
 variable "karpenter_chart_version" {
   description = "Karpenter Chart Version"
 }
+
+variable "karpenter_node_instance_profile" {
+  description = "Instance profile name used by karpenter"
+}
