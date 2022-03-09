@@ -1,7 +1,7 @@
 module "prometheus" {
   source     = "terraform-module/release/helm"
   namespace  = "prometheus"
-  repository = "https://prometheus.github.io/helm-charts"
+  repository = "https://prometheus-community.github.io/helm-charts"
 
   app = {
     name             = "prometheus"
