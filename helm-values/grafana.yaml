@@ -515,12 +515,7 @@ dashboardProviders: {}
 ##
 ## dashboards per provider, use provider name as key.
 ##
-dashboards:
-  default:
-    pod-dashboard:
-      url: https://karpenter.sh/preview/getting-started/karpenter-pod-metrics.json
-    node-dashboard:
-      url: https://karpenter.sh/preview/getting-started/karpenter-node-metrics.json
+dashboards: {}
   # default:
   #   some-dashboard:
   #     json: |
