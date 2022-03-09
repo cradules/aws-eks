@@ -117,6 +117,11 @@ module "karpenter_irsa" {
 
   attach_karpenter_controller_policy = true
   attach_cluster_autoscaler_policy = true
+  attach_ebs_csi_policy = true
+  attach_node_termination_handler_policy = true
+  attach_load_balancer_controller_policy = true
+  attach_vpc_cni_policy = true
+  attach_external_dns_policy = true
 
   karpenter_controller_cluster_ids   = [module.eks.cluster_id]
 
