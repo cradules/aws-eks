@@ -15,7 +15,7 @@ terraform {
     }
   }
   cloud {
-    organization = "guts"
+    organization = "SteerCI"
 
     workspaces {
       name = "eks-dev"
