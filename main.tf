@@ -160,7 +160,7 @@ module "karpenter" {
 # Install haproxy
 module "haproxy-external" {
   source                = "./modules/haproxy-external"
-  haproxy_chart_version = "1.19.0"
+  haproxy_chart_version = "1.21.0"
 }
 
 # Install prometheus
